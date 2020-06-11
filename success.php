@@ -126,7 +126,7 @@
                                         <h3 >
                                             <?php echo "TEST2" ?>
                                         </h3>
-                                        <?php file_put_contents("php://stderr", $_GET); ?>
+                                        <?php file_put_contents("php://stderr", $_GET . "\n"); ?>
                                     </div>                                   
                                 </div>
                             </div>
