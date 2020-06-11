@@ -160,11 +160,23 @@ $item->picture_url = $_POST['img'];
    $phone->number = "22223333";
    $payer->phone = $phone;
 
-   $address = new stdClass();
-   $address->zip_code = "1111";
-   $address->street_name = "False";
-   $address->street_number = 123;
-   $payer->address = $address;
+   #$address = new stdClass();
+   #$address->zip_code = "1111";
+   #$address->street_name = "False";
+   #$address->street_number = 123;
+   #$payer->address = $address;
+
+   $payer->address = array(
+    "street_name" => "False",
+    "street_number" => 123,
+    "zip_code" => "1111"
+  );
+
+   #$payer->address = array(
+   # "zip_code" => "1111",
+   # "street_name" => "False",
+   # "street_number" => 123
+   #);
 
 $preference->payment_methods = array(
     "excluded_payment_methods" => array(
