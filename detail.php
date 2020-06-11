@@ -54,7 +54,7 @@ $preference->back_urls = array(
     "pending" => "https://jebusito-mp-ecommerce-php.herokuapp.com/pending.php"
 );
 $preference->auto_return = "approved";
-$preference->notification_url = "https://jebusito-mp-ecommerce-php.herokuapp.com/notification.php;
+$preference->notification_url = "https://jebusito-mp-ecommerce-php.herokuapp.com/notification.php";
 $preference->save();
 ?>
 
