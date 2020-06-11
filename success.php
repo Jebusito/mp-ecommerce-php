@@ -118,15 +118,16 @@
                                         <div class="as-producttile-title">
                                             <h3 class="as-producttile-name">
                                                 <p class="as-producttile-tilelink">
-                                                    <span data-ase-truncate="2">Test1</span>
+                                                   El ID de tu pago es  <?php echo $_GET['collection_id'] ?><br>
+El metodo de pago fue <?php echo $_GET['payment_type'] ?><br>
+La referencia externa (external_reference) es  <?php echo $_GET['external_reference'] ?><br>
                                                 </p>
 
                                             </h3>
                                         </div>
                                         <h3 >
-                                            <?php echo "TEST2" ?>
                                         </h3>
-                                        <?php file_put_contents("php://stderr", $_GET . "\n"); ?>
+                                       
                                     </div>                                   
                                 </div>
                             </div>

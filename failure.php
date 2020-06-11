@@ -1,63 +1,3 @@
-<?php
-// SDK de Mercado Pago
-require __DIR__ .  '/vendor/autoload.php';
-
-// Agrega credenciales
-MercadoPago\SDK::setAccessToken('APP_USR-6317427424180639-042414-47e969706991d3a442922b0702a0da44-469485398');
-MercadoPago\SDK::setIntegratorId("dev_24c65fb163bf11ea96500242ac130004");
-var_dump($_POST);
-
-// Crea un objeto de preferencia
-$preference = new MercadoPago\Preference();
-
-// Crea un ítem en la preferencia
-$item = new MercadoPago\Item();
-$item->id = 1234;
-$item->description = "Dispositivo móvil de Tienda e-commerce";
-$item->title = $_POST['title'];
-$item->quantity = $_POST['unit'];
-$item->unit_price = $_POST['price'];
-$item->picture_url = $_POST['img'];
-
-   $payer = new MercadoPago\Payer();
-   $payer->name = "Lalo";
-   $payer->surname = "Landa";
-   $payer->email = "test_user_63274575@testuser.com";
-
-   $phone = new stdClass();
-   $phone->area_code = "11";
-   $phone->number = "22223333";
-   $payer->phone = $phone;
-
-   $address = new stdClass();
-   $address->zip_code = "1111";
-   $address->street_name = "False";
-   $address->street_number = 123;
-   $payer->address = $address;
-
-$preference->payment_methods = array(
-    "excluded_payment_methods" => array(
-      array("id" => "amex")
-    ),
-    "excluded_payment_types" => array(
-        array("id" => "atm")
-      ),
-    "installments" => 6
-  );
-
-$preference->external_reference = "contacto@iramos.com.ar";
-$preference->items = array($item);
-$preference->payer = $payer;
-$preference->back_urls = array(
-    "success" => "https://jebusito-mp-ecommerce-php.herokuapp.com/success.php",
-    "failure" => "https://jebusito-mp-ecommerce-php.herokuapp.com/failure.php",
-    "pending" => "https://jebusito-mp-ecommerce-php.herokuapp.com/pending.php"
-);
-$preference->auto_return = "approved";
-$preference->notification_url = "https://jebusito-mp-ecommerce-php.herokuapp.com/notification.php;
-$preference->save();
-?>
-
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
@@ -137,7 +77,7 @@ $preference->save();
 
                                     <button class="as-filter-button" aria-expanded="true" aria-controls="as-search-filters" type="button">
                                         <h2 class=" as-filter-button-text">
-                                            Smartphones
+                                        Ups, hubo un problema.
                                         </h2>
                                     </button>
 
@@ -178,19 +118,12 @@ $preference->save();
                                         <div class="as-producttile-title">
                                             <h3 class="as-producttile-name">
                                                 <p class="as-producttile-tilelink">
-                                                    <span data-ase-truncate="2"><?php echo $_POST['title'] ?></span>
+                                                    <span data-ase-truncate="2">No pudimos procesar tu pago.</span>
+                                                    Si necesitas volver a pagar usa otra tarjeta u otro medio de pago.
                                                 </p>
-
                                             </h3>
                                         </div>
-                                        <h3 >
-                                            <?php echo "$" . $_POST['price'] ?>
-                                        </h3>
-                                        <h3 >
-                                            <?php echo $_POST['unit'] ?>
-                                        </h3>
-                                    </div>      
-                                    <a class="mercadopago-button" href="<?php echo $preference->init_point; ?>">Pagar la compra</a>                                
+                                    </div>                                   
                                 </div>
                             </div>
                         </div>
