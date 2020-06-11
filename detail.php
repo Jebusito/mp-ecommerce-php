@@ -1,3 +1,62 @@
+<?php
+// SDK de Mercado Pago
+require __DIR__ .  '/vendor/autoload.php';
+
+// Agrega credenciales
+MercadoPago\SDK::setAccessToken('APP_USR-6317427424180639-042414-47e969706991d3a442922b0702a0da44-469485398');
+MercadoPago\SDK::setIntegratorId("dev_24c65fb163bf11ea96500242ac130004");
+var_dump($_POST);
+
+// Crea un objeto de preferencia
+$preference = new MercadoPago\Preference();
+
+// Crea un ítem en la preferencia
+$item = new MercadoPago\Item();
+$item->id = 1234;
+$item->description = "Dispositivo móvil de Tienda e-commerce";
+$item->title = $_POST['title'];
+$item->quantity = $_POST['unit'];
+$item->unit_price = $_POST['price'];
+$item->picture_url = $_POST['img'];
+
+   $payer = new MercadoPago\Payer();
+   $payer->name = "Lalo";
+   $payer->surname = "Landa";
+   $payer->email = "test_user_63274575@testuser.com";
+
+   $phone = new stdClass();
+   $phone->area_code = "11";
+   $phone->number = "22223333";
+   $payer->phone = $phone;
+
+   $address = new stdClass();
+   $address->zip_code = "1111";
+   $address->street_name = "False";
+   $address->street_number = 123;
+   $payer->address = $address;
+
+$preference->payment_methods = array(
+    "excluded_payment_methods" => array(
+      array("id" => "amex")
+    ),
+    "excluded_payment_types" => array(
+        array("id" => "atm")
+      ),
+    "installments" => 6
+  );
+
+$preference->external_reference = "contacto@iramos.com.ar";
+$preference->items = array($item);
+$preference->payer = $payer;
+$preference->back_urls = array(
+    "success" => "https://jebusito-mp-ecommerce-php.herokuapp.com/success.php",
+    "failure" => "https://jebusito-mp-ecommerce-php.herokuapp.com/failure.php",
+    "pending" => "https://jebusito-mp-ecommerce-php.herokuapp.com/pending.php"
+);
+$preference->auto_return = "approved";
+$preference->save();
+?>
+
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
@@ -11,7 +70,7 @@
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
-
+    <script src="https://www.mercadopago.com/v2/security.js" view="item"></script>
     <link rel="stylesheet" href="./assets/category-landing.css" media="screen, print">
 
     <link rel="stylesheet" href="./assets/category.css" media="screen, print">
@@ -124,13 +183,19 @@
                                             </h3>
                                         </div>
                                         <h3 >
-                                            <?php echo $_POST['price'] ?>
+                                            <?php echo "$" . $_POST['price'] ?>
                                         </h3>
                                         <h3 >
-                                            <?php echo "$" . $_POST['unit'] ?>
+                                            <?php echo $_POST['unit'] ?>
                                         </h3>
-                                    </div>
-                                    <button type="submit" class="mercadopago-button" formmethod="post">Pagar</button>
+                                    </div>                                   
+<form action="/procesar-pago" method="POST">
+  <script
+   src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js"
+   data-preference-id="<?php echo $preference->id; ?>"
+   data-button-label="Pagar la compra">
+  </script>
+</form>     
                                 </div>
                             </div>
                         </div>
